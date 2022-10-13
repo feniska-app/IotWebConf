@@ -456,6 +456,16 @@ public:
   };
 
   /**
+   * Sets the authentication credentials for WiFi connection to the configured one.
+   */
+  void setWifiAuthInfo(char* wifiSsid, char* wifiPassword)
+  {
+    _wifiAuthInfo = {wifiSsid, wifiPassword};
+    memcpy(this->_wifiParameters._wifiSsid, wifiSsid, sizeof(this->_wifiParameters._wifiSsid));
+    memcpy(this->_wifiParameters._wifiPassword, wifiPassword, sizeof(this->_wifiParameters._wifiPassword));
+  };
+
+  /**
    * 
    */
   void startupOffLine() { this->_startupOffLine = true; }
@@ -557,6 +567,8 @@ public:
   {
     return this->htmlFormatProvider;
   }
+  void stopAp();
+
 
 private:
   const char* _initialApPassword = nullptr;
@@ -636,7 +648,8 @@ private:
   }
   bool mustStayInApMode()
   {
-    return this->_forceDefaultPassword || (this->_apPassword[0] == '\0') ||
+    // previous version also includes this->_forceDefaultPassword || (this->_apPassword[0] == '\0')
+    return 
       (this->_wifiParameters._wifiSsid[0] == '\0') || this->_forceApMode;
   }
   bool isIp(String str);
@@ -648,7 +661,6 @@ private:
   void checkConnection();
   bool checkWifiConnection();
   void setupAp();
-  void stopAp();
   void endMDns(NetworkState oldState);
 
   static bool connectAp(const char* apName, const char* password);
