@@ -500,6 +500,8 @@ public:
   /**
    *
    */
+
+  void setStateToOnLine() { this->changeState(OnLine); }
   unsigned long getApStartTimeMs() { return this->_apStartTimeMs; }
 
   /**
