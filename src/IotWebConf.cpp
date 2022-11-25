@@ -435,9 +435,22 @@ bool IotWebConf::handleCaptivePortal(WebRequestWrapper* webRequestWrapper)
     Serial.print(":");
     Serial.println(webRequestWrapper->localPort());
 #endif
+    Serial.println("Setting a new header");
+    if (host == "captive.apple.com" || host == "netcts.cdn-apple.com")
+    {
+      this->_requestedFromiOs = true;
+    }
+    if (host == "connectivitycheck.gstatic.com" ||
+        host == "connect.rom.miui.com")
+    {
+      this->_requestedFromiOs = false;
+    }
     webRequestWrapper->sendHeader(
       "Location", String("http://") + toStringIp(webRequestWrapper->localIP()) + ":" + webRequestWrapper->localPort(), true);
-    webRequestWrapper->send(302, "text/plain", ""); // Empty content inhibits Content-length header so we have to close the socket ourselves.
+    webRequestWrapper->send(
+        302, "text/plain",
+        ""); // Empty content inhibits Content-length header so we have
+             // to close the socket ourselves.
     webRequestWrapper->stop(); // Stop is needed because we sent no content length
     return true;
   }
@@ -567,6 +580,7 @@ void IotWebConf::changeState(NetworkState newState)
   {
     case ApMode:
     {
+      this->_requestedFromiOs = false;
       // -- In AP mode we must override the default AP password. Otherwise we stay
       // in STATE_NOT_CONFIGURED.
       if (mustUseDefaultPassword())

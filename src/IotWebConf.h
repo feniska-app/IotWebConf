@@ -571,6 +571,7 @@ public:
   }
   void stopAp();
 
+  bool getIsRequestedFromiOs() { return this->_requestedFromiOs; }
 
 private:
   const char* _initialApPassword = nullptr;
@@ -633,6 +634,7 @@ private:
   WifiAuthInfo _wifiAuthInfo;
   HtmlFormatProvider htmlFormatProviderInstance;
   HtmlFormatProvider* htmlFormatProvider = &htmlFormatProviderInstance;
+  bool _requestedFromiOs;
 
   int initConfig();
   bool testConfigVersion();
