@@ -30,7 +30,7 @@
 // -- IotWebConf tries to connect to the local network for an amount of time
 // before falling back to AP mode.
 #ifndef IOTWEBCONF_DEFAULT_WIFI_CONNECTION_TIMEOUT_MS
-# define IOTWEBCONF_DEFAULT_WIFI_CONNECTION_TIMEOUT_MS 30000
+# define IOTWEBCONF_DEFAULT_WIFI_CONNECTION_TIMEOUT_MS 15000
 #endif
 
 // -- Thing will stay in AP mode for an amount of time on boot, before retrying
